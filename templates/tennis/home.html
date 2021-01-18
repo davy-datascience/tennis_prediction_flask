@@ -1,0 +1,72 @@
+{% extends 'tennis/base.html' %}
+
+{% block title %}Tennis matches{% endblock %}
+
+{% block content %}
+    <h4>Tennis matches</h4>
+    <br/>
+    <input id="datepicker" data-provide="datepicker">
+
+    <br/>
+
+    <div class="row border border-secondary">
+        <div class="col-1">
+            Date
+        </div>
+        <div class="col-1">
+            <div>Player 1</div>
+            <div>Player 2</div>
+        </div>
+        <div class="col-1">
+            score
+        </div>
+        <div class="col-1">
+            Prediction
+        </div>
+    </div>
+
+    <div class="row border border-secondary">
+        <div class="col-1">
+            Date
+        </div>
+        <div class="col-1">
+            <div>Player 1</div>
+            <div>Player 2</div>
+        </div>
+        <div class="col-1">
+            score
+        </div>
+        <div class="col-1">
+            Prediction
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            $('#datepicker').datepicker(
+            {
+                format: "dd/mm/yyyy",
+                autoclose: true
+            });
+
+
+            $('#datepicker').datepicker('setDate', new Date(2011, 2, 5));
+
+            $('#datepicker').datepicker().on('changeDate', function(e) {
+                console.log("Date changed JS");
+               //console.log($('#datepicker').datepicker('getDate'));
+
+                const URL = '/change_date_of_matches'
+                const xhr = new XMLHttpRequest();
+                date_picked = $('#datepicker').datepicker('getDate')
+                year = date_picked.getFullYear()
+                month = date_picked.getMonth() + 1
+                day = date_picked.getDate()
+
+                sender = year + " " + month + " " + day
+                xhr.open('POST', URL);
+                xhr.send(sender);
+            });
+        })();
+    </script>
+{% endblock %}
