@@ -50,22 +50,31 @@
             });
 
 
-            $('#datepicker').datepicker('setDate', new Date(2011, 2, 5));
+            $('#datepicker').datepicker('setDate', new Date(2021, 0, 15));
 
             $('#datepicker').datepicker().on('changeDate', function(e) {
                 console.log("Date changed JS");
                //console.log($('#datepicker').datepicker('getDate'));
 
-                const URL = '/change_date_of_matches'
-                const xhr = new XMLHttpRequest();
                 date_picked = $('#datepicker').datepicker('getDate')
                 year = date_picked.getFullYear()
                 month = date_picked.getMonth() + 1
                 day = date_picked.getDate()
 
-                sender = year + " " + month + " " + day
-                xhr.open('POST', URL);
-                xhr.send(sender);
+                msg = year + " " + month + " " + day
+
+                fetch('/change_date_of_matches', {
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    method: 'POST',
+                    body: msg
+                }).then(function (response) {
+                    return response.text();
+                }).then(function (text) {
+                    console.log(text);
+                });
+
             });
         })();
     </script>

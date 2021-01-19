@@ -1,7 +1,9 @@
 import configparser
 
 from flask import Flask, render_template, redirect, url_for, request
-from datetime import date
+from datetime import datetime
+
+from queries.match_queries import get_matches
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -19,7 +21,7 @@ def index():
 
 @app.route('/tennis')
 def tennis():
-    return render_template('tennis/home.html', my_date=date.today())
+    return render_template('tennis/home.html', my_date="BLIBLIBLI")
 
 
 @app.route('/change_date_of_matches', methods=['GET', 'POST'])
@@ -29,6 +31,10 @@ def change_date_of_matches():
     data = request.data
     print(data)
     date_picked = data.split()
-    date_of_matches = date(int(date_picked[0]), int(date_picked[1]), int(date_picked[2]))
 
-    return render_template('tennis/test.html')
+    # TODO check datetime with timezone on browser
+    date_of_matches = datetime(int(date_picked[0]), int(date_picked[1]), int(date_picked[2]))
+
+    matches = get_matches(date_of_matches)
+
+    return matches.to_html(classes='data')
