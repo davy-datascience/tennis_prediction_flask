@@ -1,0 +1,21 @@
+{{ moment.include_moment() }}
+{% for match_result in match_results %}
+    <div class="row border border-secondary">{{match_result.tournament_name}}</div>
+    {% for match in match_result.matches %}
+        <div class="row border border-secondary">
+            <div class="col-1">
+                {{ moment(match.match_date).format('LLL') }}
+            </div>
+            <div class="col-1">
+                <div>{{match.p1_name}}</div>
+                <div>{{match.p2_name}}</div>
+            </div>
+            <div class="col-1">
+                score
+            </div>
+            <div class="col-1">
+                Prediction
+            </div>
+        </div>
+    {% endfor %}
+{% endfor %}

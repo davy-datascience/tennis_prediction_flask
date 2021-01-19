@@ -3,81 +3,65 @@
 {% block title %}Tennis matches{% endblock %}
 
 {% block content %}
-    <h4>Tennis matches</h4>
-    <br/>
-    <input id="datepicker" data-provide="datepicker">
+    {% if match_results %}
 
-    <br/>
+        <h4>Tennis matches</h4>
 
-    <div class="row border border-secondary">
-        <div class="col-1">
-            Date
+        <br/><br/>
+
+        <input id="datepicker" data-provide="datepicker">
+
+        <br/><br/>
+
+        <div id="matches_section">
+            {% include 'tennis/matches.html' %}
         </div>
-        <div class="col-1">
-            <div>Player 1</div>
-            <div>Player 2</div>
-        </div>
-        <div class="col-1">
-            score
-        </div>
-        <div class="col-1">
-            Prediction
-        </div>
-    </div>
 
-    <div class="row border border-secondary">
-        <div class="col-1">
-            Date
-        </div>
-        <div class="col-1">
-            <div>Player 1</div>
-            <div>Player 2</div>
-        </div>
-        <div class="col-1">
-            score
-        </div>
-        <div class="col-1">
-            Prediction
-        </div>
-    </div>
-
-    <script>
-        (function() {
-            $('#datepicker').datepicker(
-            {
-                format: "dd/mm/yyyy",
-                autoclose: true
-            });
-
-
-            $('#datepicker').datepicker('setDate', new Date(2021, 0, 15));
-
-            $('#datepicker').datepicker().on('changeDate', function(e) {
-                console.log("Date changed JS");
-               //console.log($('#datepicker').datepicker('getDate'));
-
-                date_picked = $('#datepicker').datepicker('getDate')
-                year = date_picked.getUTCFullYear()
-                month = date_picked.getUTCMonth() + 1
-                day = date_picked.getUTCDate()
-                hours = date_picked.getUTCHours()
-                minutes = date_picked.getUTCMinutes()
-
-                msg = year + " " + month + " " + day + " " + hours + " " + minutes
-
-                fetch('/change_date_of_matches', {
-                    headers: {
-                      'Content-Type': 'application/json'
-                    },
-                    method: 'POST',
-                    body: msg
-                }).then(function (response) {
-                    return response.text();
-                }).then(function (text) {
-                    console.log(text);
+        <script>
+            (function() {
+                $('#datepicker').datepicker(
+                {
+                    format: "dd/mm/yyyy",
+                    autoclose: true
                 });
 
-            });
-        })();
-    </script>
+
+                $('#datepicker').datepicker('setDate', new Date(2021, 0, 15));
+
+                $('#datepicker').datepicker().on('changeDate', function(e) {
+                    console.log("Date changed JS");
+                   //console.log($('#datepicker').datepicker('getDate'));
+
+                    date_picked = $('#datepicker').datepicker('getDate')
+                    year = date_picked.getUTCFullYear()
+                    month = date_picked.getUTCMonth() + 1
+                    day = date_picked.getUTCDate()
+                    hours = date_picked.getUTCHours()
+                    minutes = date_picked.getUTCMinutes()
+
+                    msg = year + " " + month + " " + day + " " + hours + " " + minutes
+
+                    fetch('/change_date_of_matches', {
+                        headers: {
+                          'Content-Type': 'application/json'
+                        },
+                        method: 'POST',
+                        body: msg
+                    }).then(function (response) {
+                        return response.text();
+                    }).then(function (text) {
+                        $("#matches_section").html(text);
+                    });
+
+                });
+            })();
+        </script>
+
+    {% else %}
+        <script>
+            (function() {
+                currrent_date = new Date();
+            })();
+        </script>
+    {% endif %}
 {% endblock %}
