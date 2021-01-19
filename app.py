@@ -32,8 +32,8 @@ def change_date_of_matches():
     print(data)
     date_picked = data.split()
 
-    # TODO check datetime with timezone on browser
-    date_of_matches = datetime(int(date_picked[0]), int(date_picked[1]), int(date_picked[2]))
+    date_of_matches = datetime(int(date_picked[0]), int(date_picked[1]), int(date_picked[2]),
+                               int(date_picked[3]), int(date_picked[4]))
 
     matches = get_matches(date_of_matches)
 
