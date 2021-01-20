@@ -4,7 +4,7 @@ from flask import Flask, render_template, redirect, url_for, request
 from flask_moment import Moment
 from datetime import datetime
 
-from managers.match_manager import get_match_results
+from tennis.managers.match_manager import get_match_results
 
 config = configparser.ConfigParser()
 config.read("config.ini")

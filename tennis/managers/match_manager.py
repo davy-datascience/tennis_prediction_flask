@@ -1,5 +1,5 @@
-from classes.MatchResult import Match, MatchResult
-from queries.match_queries import get_matches
+from tennis.classes.MatchResult import Match, MatchResult
+from tennis.queries.match_queries import get_matches
 
 
 def get_match_results(date_of_matches):
