@@ -14,12 +14,7 @@
         <br/><br/>
 
         <div id="matches_section">
-            {% if match_results|length > 0 %}
-                {% include 'tennis/matches.html' %}
-            {% else %}
-                {% include 'tennis/no_matches.html' %}
-            {% endif %}
-
+            {% include 'tennis/matches.html' %}
         </div>
 
         <script>

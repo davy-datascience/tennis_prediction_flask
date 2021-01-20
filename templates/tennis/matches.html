@@ -1,4 +1,9 @@
 {{ moment.include_moment() }}
+
+{% if match_results|length == 0 %}
+    <p> No matches </p>
+{% endif %}
+
 {% for match_result in match_results %}
     <div class="row border border-secondary">{{match_result.tournament_name}}</div>
     {% for match in match_result.matches %}

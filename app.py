@@ -18,7 +18,6 @@ moment = Moment(app)
 
 @app.route('/')
 def index():
-    # return render_template('tennis/test.html')
     return redirect(url_for('tennis'))
 
 
