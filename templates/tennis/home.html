@@ -3,11 +3,11 @@
 {% block title %}Tennis matches{% endblock %}
 
 {% block content %}
-    {% if match_results %}
+    {% if match_results != None %}
 
         <h4>Tennis matches</h4>
 
-        <br/><br/>
+        <br/>
 
         <input id="datepicker" data-provide="datepicker">
 
@@ -19,34 +19,33 @@
 
         <script>
             (function() {
+                // Remove today date from url
+                history.replaceState(null, null, location.href.replace(/[\?&]date=[^&]+/, '').replace(/^&/, '?'))
+
                 $('#datepicker').datepicker(
                 {
                     format: "dd/mm/yyyy",
                     autoclose: true
                 });
 
-
-                $('#datepicker').datepicker('setDate', new Date(2021, 0, 15));
+                $('#datepicker').datepicker('setDate', new Date());
 
                 $('#datepicker').datepicker().on('changeDate', function(e) {
-                    console.log("Date changed JS");
-                   //console.log($('#datepicker').datepicker('getDate'));
+                    date_picked = $('#datepicker').datepicker('getDate');
+                    year = date_picked.getUTCFullYear();
+                    month = date_picked.getUTCMonth() + 1;
+                    day = date_picked.getUTCDate();
+                    hours = date_picked.getUTCHours();
+                    minutes = date_picked.getUTCMinutes();
 
-                    date_picked = $('#datepicker').datepicker('getDate')
-                    year = date_picked.getUTCFullYear()
-                    month = date_picked.getUTCMonth() + 1
-                    day = date_picked.getUTCDate()
-                    hours = date_picked.getUTCHours()
-                    minutes = date_picked.getUTCMinutes()
-
-                    msg = year + " " + month + " " + day + " " + hours + " " + minutes
+                    date_str = year + "-" + month + "-" + day + "-" + hours + "-" + minutes;
 
                     fetch('/change_date_of_matches', {
                         headers: {
                           'Content-Type': 'application/json'
                         },
                         method: 'POST',
-                        body: msg
+                        body: date_str
                     }).then(function (response) {
                         return response.text();
                     }).then(function (text) {
@@ -59,8 +58,20 @@
 
     {% else %}
         <script>
+            // Get local datetime and send to server to refresh the page with today's matches at local timezone
             (function() {
-                currrent_date = new Date();
+                today_at_start = new Date();
+                today_at_start.setHours(0,0,0,0);
+
+                year = today_at_start.getUTCFullYear();
+                month = today_at_start.getUTCMonth() + 1;
+                day = today_at_start.getUTCDate();
+                hours = today_at_start.getUTCHours();
+                minutes = today_at_start.getUTCMinutes();
+
+                date_str = year + "-" + month + "-" + day + "-" + hours + "-" + minutes;
+
+                window.location.href = "{{ url_for('tennis') }}?date=" + date_str;
             })();
         </script>
     {% endif %}

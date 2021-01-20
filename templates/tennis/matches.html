@@ -4,14 +4,52 @@
     {% for match in match_result.matches %}
         <div class="row border border-secondary">
             <div class="col-1">
-                {{ moment(match.match_date).format('LLL') }}
+                {{ moment(match.match_date).format('HH:mm') }}
+            </div>
+            <div class="col-2">
+                {% if match.p1_wins %}
+                    <div class="font-weight-bold">{{match.p1_name}}</div>
+                    <div>{{match.p2_name}}</div>
+                {% else %}
+                    <div>{{match.p1_name}}</div>
+                    <div class="font-weight-bold">{{match.p2_name}}</div>
+                {% endif %}
             </div>
             <div class="col-1">
-                <div>{{match.p1_name}}</div>
-                <div>{{match.p2_name}}</div>
-            </div>
-            <div class="col-1">
-                score
+                <div class="row">
+                    {% if match.p1_s1_gms %}
+                        <div class="col-2">{{match.p1_s1_gms}}</div>
+                    {% endif %}
+                    {% if match.p1_s2_gms %}
+                        <div class="col-2">{{match.p1_s2_gms}}</div>
+                    {% endif %}
+                    {% if match.p1_s3_gms %}
+                        <div class="col-2">{{match.p1_s3_gms}}</div>
+                    {% endif %}
+                    {% if match.p1_s4_gms %}
+                        <div class="col-2">{{match.p1_s4_gms}}</div>
+                    {% endif %}
+                    {% if match.p1_s5_gms %}
+                        <div class="col-2">{{match.p1_s5_gms}}</div>
+                    {% endif %}
+                </div>
+                <div class="row">
+                    {% if match.p2_s1_gms %}
+                        <div class="col-2">{{match.p2_s1_gms}}</div>
+                    {% endif %}
+                    {% if match.p2_s2_gms %}
+                        <div class="col-2">{{match.p2_s2_gms}}</div>
+                    {% endif %}
+                    {% if match.p2_s3_gms %}
+                        <div class="col-2">{{match.p2_s3_gms}}</div>
+                    {% endif %}
+                    {% if match.p2_s4_gms %}
+                        <div class="col-2">{{match.p2_s4_gms}}</div>
+                    {% endif %}
+                    {% if match.p2_s5_gms %}
+                        <div class="col-2">{{match.p2_s5_gms}}</div>
+                    {% endif %}
+                </div>
             </div>
             <div class="col-1">
                 Prediction

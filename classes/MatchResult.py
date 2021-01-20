@@ -3,10 +3,22 @@ from bson.json_util import loads
 
 
 class Match:
-    def __init__(self, p1_name, p2_name, match_date):
-        self.p1_name = p1_name
-        self.p2_name = p2_name
-        self.match_date = match_date
+    def __init__(self, row):
+        self.p1_name = row["p1_name"]
+        self.p2_name = row["p2_name"]
+        self.match_date = row["datetime"]
+        self.p1_s1_gms = row["p1_s1_gms"]
+        self.p1_s2_gms = row["p1_s2_gms"]
+        self.p1_s3_gms = row["p1_s3_gms"]
+        self.p1_s4_gms = row["p1_s4_gms"]
+        self.p1_s5_gms = row["p1_s5_gms"]
+        self.p2_s1_gms = row["p2_s1_gms"]
+        self.p2_s2_gms = row["p2_s2_gms"]
+        self.p2_s3_gms = row["p2_s3_gms"]
+        self.p2_s4_gms = row["p2_s4_gms"]
+        self.p2_s5_gms = row["p2_s5_gms"]
+
+        self.p1_wins = row["p1_wins"]
 
 
 class MatchResult:

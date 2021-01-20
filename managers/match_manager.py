@@ -12,8 +12,8 @@ def get_match_results(date_of_matches):
 
         for tour in tournaments:
             matches_in_tour = matches[matches["tournament_name"] == tour]
-            list_of_matches = [(Match(row.p1_name, row.p2_name, row.datetime)) for index, row in
-                               matches_in_tour.iterrows()]
+            list_of_matches = [(Match(row))
+                               for index, row in matches_in_tour.iterrows()]
 
             match_result = MatchResult(tour, list_of_matches)
 
