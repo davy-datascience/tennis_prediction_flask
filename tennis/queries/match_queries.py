@@ -69,6 +69,9 @@ def get_matches(match_date):
                         'p2_s5_gms': 1,
                         'p1_wins': 1
                     }
+                },
+                {'$sort':
+                      {'datetime': 1}
                 }]
 
     matches = pd.DataFrame(list(collection.aggregate(pipeline)))
