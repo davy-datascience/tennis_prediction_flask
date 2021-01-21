@@ -1,7 +1,7 @@
 {{ moment.include_moment() }}
 
 {% if match_results|length == 0 %}
-    <p> No matches </p>
+    <p> No matches on this day </p>
 {% endif %}
 
 {% for match_result in match_results %}
@@ -22,42 +22,42 @@
             </div>
             <div class="col-2">
                 <div class="row">
-                    {% if match.p1_s1_gms %}
+                    {% if match.p1_s1_gms is not sameas None %}
                         <div class="col-2">{{match.p1_s1_gms}}</div>
                     {% endif %}
-                    {% if match.p1_s2_gms %}
+                    {% if match.p1_s2_gms is not sameas None %}
                         <div class="col-2">{{match.p1_s2_gms}}</div>
                     {% endif %}
-                    {% if match.p1_s3_gms %}
+                    {% if match.p1_s3_gms is not sameas None %}
                         <div class="col-2">{{match.p1_s3_gms}}</div>
                     {% endif %}
-                    {% if match.p1_s4_gms %}
+                    {% if match.p1_s4_gms is not sameas None %}
                         <div class="col-2">{{match.p1_s4_gms}}</div>
                     {% endif %}
-                    {% if match.p1_s5_gms %}
+                    {% if match.p1_s5_gms is not sameas None %}
                         <div class="col-2">{{match.p1_s5_gms}}</div>
                     {% endif %}
                 </div>
                 <div class="row">
-                    {% if match.p2_s1_gms %}
+                    {% if match.p2_s1_gms is not sameas None %}
                         <div class="col-2">{{match.p2_s1_gms}}</div>
                     {% endif %}
-                    {% if match.p2_s2_gms %}
+                    {% if match.p2_s2_gms is not sameas None %}
                         <div class="col-2">{{match.p2_s2_gms}}</div>
                     {% endif %}
-                    {% if match.p2_s3_gms %}
+                    {% if match.p2_s3_gms is not sameas None %}
                         <div class="col-2">{{match.p2_s3_gms}}</div>
                     {% endif %}
-                    {% if match.p2_s4_gms %}
+                    {% if match.p2_s4_gms is not sameas None %}
                         <div class="col-2">{{match.p2_s4_gms}}</div>
                     {% endif %}
-                    {% if match.p2_s5_gms %}
+                    {% if match.p2_s5_gms is not sameas None %}
                         <div class="col-2">{{match.p2_s5_gms}}</div>
                     {% endif %}
                 </div>
             </div>
             <div class="col-1">
-                Prediction
+                No prediction
             </div>
         </div>
     {% endfor %}
