@@ -9,7 +9,18 @@
 
         <br/>
 
-        <input id="datepicker" data-provide="datepicker">
+        <div class="row">
+            <div class="col-1"> </div>
+            <button type="button" onclick="goToYesterday()" class="btn btn-outline-secondary"> < </button>
+            <div class="col-2">
+                <div class="d-flex justify-content-center">
+                    <input id="datepicker" data-provide="datepicker">
+                </div>
+
+            </div>
+            <button type="button" onclick="goToTomorrow()" class="btn btn-outline-secondary"> > </button>
+        </div>
+
 
         <br/><br/>
 
@@ -18,9 +29,43 @@
         </div>
 
         <script>
+            function changeDate(date_picked){
+                year = date_picked.getUTCFullYear();
+                month = date_picked.getUTCMonth() + 1;
+                day = date_picked.getUTCDate();
+                hours = date_picked.getUTCHours();
+                minutes = date_picked.getUTCMinutes();
+
+                date_str = year + "-" + month + "-" + day + "-" + hours + "-" + minutes;
+
+                fetch('/change_date_of_matches', {
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    method: 'POST',
+                    body: date_str
+                }).then(function (response) {
+                    return response.text();
+                }).then(function (text) {
+                    $("#matches_section").html(text);
+                });
+            };
+
+            function goToTomorrow(){
+                tomorrow = $('#datepicker').datepicker('getDate');
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                $('#datepicker').datepicker('setDate', tomorrow);
+            };
+
+            function goToYesterday(){
+                yesterday = $('#datepicker').datepicker('getDate');
+                yesterday.setDate(yesterday.getDate() - 1);
+                $('#datepicker').datepicker('setDate', yesterday);
+            };
+
             (function() {
                 // Remove today date from url
-                history.replaceState(null, null, location.href.replace(/[\?&]date=[^&]+/, '').replace(/^&/, '?'))
+                history.replaceState(null, null, location.href.replace(/[\?&]timezone=[^&]+/, '').replace(/^&/, '?'))
 
                 $('#datepicker').datepicker(
                 {
@@ -28,50 +73,23 @@
                     autoclose: true
                 });
 
-                $('#datepicker').datepicker('setDate', new Date());
+                current_date = new Date();
+                current_date.setHours(0, 0, 0, 0);
+
+                $('#datepicker').datepicker('setDate', current_date);
 
                 $('#datepicker').datepicker().on('changeDate', function(e) {
                     date_picked = $('#datepicker').datepicker('getDate');
-                    year = date_picked.getUTCFullYear();
-                    month = date_picked.getUTCMonth() + 1;
-                    day = date_picked.getUTCDate();
-                    hours = date_picked.getUTCHours();
-                    minutes = date_picked.getUTCMinutes();
-
-                    date_str = year + "-" + month + "-" + day + "-" + hours + "-" + minutes;
-
-                    fetch('/change_date_of_matches', {
-                        headers: {
-                          'Content-Type': 'application/json'
-                        },
-                        method: 'POST',
-                        body: date_str
-                    }).then(function (response) {
-                        return response.text();
-                    }).then(function (text) {
-                        $("#matches_section").html(text);
-                    });
-
+                    changeDate(date_picked);
                 });
             })();
         </script>
 
     {% else %}
         <script>
-            // Get local datetime and send to server to refresh the page with today's matches at local timezone
+            // Send local timezone to server and refresh the page with today's matches at local timezone
             (function() {
-                today_at_start = new Date();
-                today_at_start.setHours(0,0,0,0);
-
-                year = today_at_start.getUTCFullYear();
-                month = today_at_start.getUTCMonth() + 1;
-                day = today_at_start.getUTCDate();
-                hours = today_at_start.getUTCHours();
-                minutes = today_at_start.getUTCMinutes();
-
-                date_str = year + "-" + month + "-" + day + "-" + hours + "-" + minutes;
-
-                window.location.href = "{{ url_for('tennis') }}?date=" + date_str;
+                window.location.href = "{{ url_for('tennis') }}?timezone=" + Intl.DateTimeFormat().resolvedOptions().timeZone;
             })();
         </script>
     {% endif %}

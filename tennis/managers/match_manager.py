@@ -1,9 +1,14 @@
+import pytz
+
+from pytz import timezone
+from datetime import datetime
+
 from tennis.classes.MatchResult import Match, MatchResult
-from tennis.queries.match_queries import get_matches
+from tennis.queries.match_queries import query_matches, query_next_match_date, query_previous_match_date
 
 
 def get_match_results(date_of_matches):
-    matches = get_matches(date_of_matches)
+    matches = query_matches(date_of_matches)
 
     matches_per_tour = []
 
@@ -20,3 +25,23 @@ def get_match_results(date_of_matches):
             matches_per_tour.append(match_result)
 
     return matches_per_tour
+
+
+def get_next_match_date(date_of_matches, local_timezone):
+    match_date_utc = query_next_match_date(date_of_matches)
+    if match_date_utc:
+        match_date_utc = pytz.utc.localize(match_date_utc)
+        match_date = match_date_utc.astimezone(timezone(local_timezone))
+        return match_date.date()
+    else:
+        return None
+
+
+def get_previous_match_date(date_of_matches, local_timezone):
+    match_date_utc = query_previous_match_date(date_of_matches)
+    if match_date_utc:
+        match_date_utc = pytz.utc.localize(match_date_utc)
+        match_date = match_date_utc.astimezone(timezone(local_timezone))
+        return match_date.date()
+    else:
+        return None
