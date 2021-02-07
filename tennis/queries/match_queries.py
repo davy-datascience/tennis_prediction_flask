@@ -6,11 +6,19 @@ from datetime import timedelta
 from pymongo import MongoClient
 
 
-def get_match_dtypes():
-    return {"p1_s1_gms": "Int16", "p1_s2_gms": "Int16", "p1_s3_gms": "Int16", "p1_s4_gms": "Int16",
-            "p1_s5_gms": "Int16",
-            "p2_s1_gms": "Int16", "p2_s2_gms": "Int16", "p2_s3_gms": "Int16", "p2_s4_gms": "Int16",
-            "p2_s5_gms": "Int16"}
+def get_match_dtypes(matches):
+    all_dtypes = {
+        "p1_s1_gms": "Int16", "p1_s2_gms": "Int16", "p1_s3_gms": "Int16", "p1_s4_gms": "Int16", "p1_s5_gms": "Int16",
+        "p2_s1_gms": "Int16", "p2_s2_gms": "Int16", "p2_s3_gms": "Int16", "p2_s4_gms": "Int16","p2_s5_gms": "Int16"
+    }
+
+    dtypes = {}
+
+    for col in matches.columns.to_list():
+        if col in all_dtypes.keys():
+            dtypes[col] = all_dtypes[col]
+
+    return dtypes
 
 
 def get_mongo_client():
@@ -97,7 +105,7 @@ def query_matches(match_date):
     matches = pd.DataFrame(list(collection.aggregate(pipeline)))
 
     if len(matches.index) > 0:
-        matches = matches.astype(get_match_dtypes())
+        matches = matches.astype(get_match_dtypes(matches))
         # numpy nan values not interpreted by jinja
         matches = matches.replace({np.nan: None})
 
