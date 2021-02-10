@@ -9,7 +9,7 @@ from pymongo import MongoClient
 def get_match_dtypes(matches):
     all_dtypes = {
         "p1_s1_gms": "Int16", "p1_s2_gms": "Int16", "p1_s3_gms": "Int16", "p1_s4_gms": "Int16", "p1_s5_gms": "Int16",
-        "p2_s1_gms": "Int16", "p2_s2_gms": "Int16", "p2_s3_gms": "Int16", "p2_s4_gms": "Int16","p2_s5_gms": "Int16"
+        "p2_s1_gms": "Int16", "p2_s2_gms": "Int16", "p2_s3_gms": "Int16", "p2_s4_gms": "Int16", "p2_s5_gms": "Int16"
     }
 
     dtypes = {}
@@ -46,35 +46,48 @@ def query_next_match_date(match_date):
     return next_match[0]["datetime"] if len(next_match) > 0 else None
 
 
+def mongodb_project_if_exists(field):
+    return {
+        '$cond': [
+            {"$eq": ["", "${0}".format(field)]},
+            "$$REMOVE",
+            "${0}".format(field)
+        ]
+    }
+
+
 def query_matches(match_date):
     collection = get_match_collection()
 
     pipeline = [
         {'$match':
-             {'datetime': {'$gte': match_date, '$lt': match_date + timedelta(days=1)}}
+            {'datetime': {'$gte': match_date, '$lt': match_date + timedelta(days=1)}}
          },
         {'$lookup':
-             {'from': 'tournaments',
-              'localField': 'tournament_id',
-              'foreignField': 'flash_id',
-              'as': 'tour_info'
-              }
+            {
+                'from': 'tournaments',
+                'localField': 'tournament_id',
+                'foreignField': 'flash_id',
+                'as': 'tour_info'
+            }
          },
         {'$unwind': '$tour_info'},
         {'$lookup':
-             {'from': 'players',
-              'localField': 'p1_id',
-              'foreignField': 'flash_id',
-              'as': 'p1_info'
-              }
+            {
+                'from': 'players',
+                'localField': 'p1_id',
+                'foreignField': 'flash_id',
+                'as': 'p1_info'
+            }
          },
         {'$unwind': '$p1_info'},
         {'$lookup':
-             {'from': 'players',
-              'localField': 'p2_id',
-              'foreignField': 'flash_id',
-              'as': 'p2_info'
-              }
+            {
+                'from': 'players',
+                'localField': 'p2_id',
+                'foreignField': 'flash_id',
+                'as': 'p2_info'
+            }
          },
         {'$unwind': '$p2_info'},
         {'$project':
@@ -84,21 +97,21 @@ def query_matches(match_date):
                 'p1_name': "$p1_info.full_name",
                 'p2_name': "$p2_info.full_name",
                 'tournament_name': "$tour_info.flash_name",
-                'p1_s1_gms': 1,
-                'p1_s2_gms': 1,
-                'p1_s3_gms': 1,
-                'p1_s4_gms': 1,
-                'p1_s5_gms': 1,
-                'p2_s1_gms': 1,
-                'p2_s2_gms': 1,
-                'p2_s3_gms': 1,
-                'p2_s4_gms': 1,
-                'p2_s5_gms': 1,
-                'p1_wins': 1
+                'p1_s1_gms': mongodb_project_if_exists("p1_s1_gms"),
+                'p1_s2_gms': mongodb_project_if_exists("p1_s2_gms"),
+                'p1_s3_gms': mongodb_project_if_exists("p1_s3_gms"),
+                'p1_s4_gms': mongodb_project_if_exists("p1_s4_gms"),
+                'p1_s5_gms': mongodb_project_if_exists("p1_s5_gms"),
+                'p2_s1_gms': mongodb_project_if_exists("p2_s1_gms"),
+                'p2_s2_gms': mongodb_project_if_exists("p2_s2_gms"),
+                'p2_s3_gms': mongodb_project_if_exists("p2_s3_gms"),
+                'p2_s4_gms': mongodb_project_if_exists("p1_s4_gms"),
+                'p2_s5_gms': mongodb_project_if_exists("p1_s5_gms"),
+                'p1_wins': mongodb_project_if_exists("p1_wins")
             }
-        },
+         },
         {'$sort':
-             {'datetime': 1}
+            {'datetime': 1}
          }
     ]
 
