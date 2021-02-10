@@ -107,6 +107,8 @@ def query_matches(match_date):
                 'p2_s3_gms': mongodb_project_if_exists("score.p2_s3_gms"),
                 'p2_s4_gms': mongodb_project_if_exists("score.p2_s4_gms"),
                 'p2_s5_gms': mongodb_project_if_exists("score.p2_s5_gms"),
+                'p1_proba': mongodb_project_if_exists("prediction.p1_proba"),
+                'p2_proba': mongodb_project_if_exists("prediction.p2_proba"),
                 'p1_wins': mongodb_project_if_exists("p1_wins")
             }
          },

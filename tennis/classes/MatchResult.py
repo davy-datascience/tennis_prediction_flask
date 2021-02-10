@@ -21,8 +21,14 @@ class Match:
             self.p2_s4_gms = row["p2_s4_gms"]
             self.p2_s5_gms = row["p2_s5_gms"]
 
-            if row["p1_wins"] is not None:
-                self.p1_wins = row["p1_wins"]
+        if "p1_wins" in row.index:
+            self.p1_wins = row["p1_wins"]
+
+        if "p1_proba" in row.index:
+            self.p1_proba = row["p1_proba"]
+            self.p2_proba = row["p2_proba"]
+
+
 
 
 class MatchResult:

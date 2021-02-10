@@ -73,6 +73,12 @@
                     {% endif %}
                 </div>
             </div>
+            <div class="col-2">
+                {% if match.p1_proba is not sameas None %}
+                    <div>{{match.p1_proba}}</div>
+                    <div>{{match.p2_proba}}</div>
+                {% endif %}
+            </div>
             <!-- <div class="col-1">
                 No prediction
             </div> -->
