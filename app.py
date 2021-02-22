@@ -6,7 +6,7 @@ from datetime import datetime
 
 from pytz import timezone
 
-from tennis.managers.match_manager import get_match_results, get_next_match_date, get_previous_match_date
+from tennis.managers.match_manager import get_match_results, get_next_match_date, get_previous_match_date, get_match
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -67,3 +67,9 @@ def change_date_of_matches():
 
     return render_template('tennis/matches.html', match_results=match_results, next_date=next_match_date,
                            prev_date=previous_match_date)
+
+
+@app.route('/tennis/match/<match_id>/')
+def match_detail(match_id):
+    match = get_match(match_id)
+    return render_template('tennis/match_detail.html', match=match)

@@ -27,9 +27,13 @@
 {% endif %}
 
 {% for match_result in match_results %}
-    <div class="row border border-secondary">{{match_result.tournament_name}}</div>
+    <div class="row border border-secondary">
+        <div class="col-5"> {{match_result.tournament_name}} </div>
+        <div class="col-2">Prediction</div>
+    </div>
     {% for match in match_result.matches %}
-        <div class="row border border-secondary">
+        <!-- TODO Remove link for scheduled matches -->
+        <div class="row border border-secondary" onclick="window.location.href='{{ url_for( 'match_detail' , match_id=match.match_id ) }}';">
             <div class="col-1">
                 {{ moment(match.match_date).format('HH:mm') }}
             </div>
@@ -79,9 +83,6 @@
                     <div>{{match.p2_proba}}</div>
                 {% endif %}
             </div>
-            <!-- <div class="col-1">
-                No prediction
-            </div> -->
         </div>
     {% endfor %}
 {% endfor %}

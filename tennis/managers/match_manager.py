@@ -4,7 +4,8 @@ from pytz import timezone
 from datetime import datetime
 
 from tennis.classes.MatchResult import Match, MatchResult
-from tennis.queries.match_queries import query_matches, query_next_match_date, query_previous_match_date
+from tennis.queries.match_queries import query_matches, query_next_match_date, query_previous_match_date, \
+    q_find_match_by_id
 
 
 def get_match_results(date_of_matches):
@@ -45,3 +46,8 @@ def get_previous_match_date(date_of_matches, local_timezone):
         return match_date.date()
     else:
         return None
+
+
+def get_match(match_id):
+    match = q_find_match_by_id(match_id)
+    return match

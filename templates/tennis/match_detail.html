@@ -1,0 +1,290 @@
+{% extends 'tennis/base.html' %}
+
+{% block title %}Match{% endblock %}
+
+{% block content %}
+    <div class="row border border-secondary">
+        <div class="col-2">
+            <div class="{{'font-weight-bold' if match.p1_wins is sameas True}}">{{match.p1_name}}</div>
+            <div class="{{'font-weight-bold' if match.p1_wins is sameas False}}">{{match.p2_name}}</div>
+        </div>
+        <div class="col-2">
+            <div class="row">
+                {% if match.p1_s1_gms is not sameas None %}
+                    <div class="col-2">{{match.p1_s1_gms}}</div>
+                {% endif %}
+                {% if match.p1_s2_gms is not sameas None %}
+                    <div class="col-2">{{match.p1_s2_gms}}</div>
+                {% endif %}
+                {% if match.p1_s3_gms is not sameas None %}
+                    <div class="col-2">{{match.p1_s3_gms}}</div>
+                {% endif %}
+                {% if match.p1_s4_gms is not sameas None %}
+                    <div class="col-2">{{match.p1_s4_gms}}</div>
+                {% endif %}
+                {% if match.p1_s5_gms is not sameas None %}
+                    <div class="col-2">{{match.p1_s5_gms}}</div>
+                {% endif %}
+            </div>
+            <div class="row">
+                {% if match.p2_s1_gms is not sameas None %}
+                    <div class="col-2">{{match.p2_s1_gms}}</div>
+                {% endif %}
+                {% if match.p2_s2_gms is not sameas None %}
+                    <div class="col-2">{{match.p2_s2_gms}}</div>
+                {% endif %}
+                {% if match.p2_s3_gms is not sameas None %}
+                    <div class="col-2">{{match.p2_s3_gms}}</div>
+                {% endif %}
+                {% if match.p2_s4_gms is not sameas None %}
+                    <div class="col-2">{{match.p2_s4_gms}}</div>
+                {% endif %}
+                {% if match.p2_s5_gms is not sameas None %}
+                    <div class="col-2">{{match.p2_s5_gms}}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-6 center">
+            {{match.p1_name}}
+        </div>
+        <div class="col-6 center">
+            {{match.p2_name}}
+        </div>
+    </div>
+
+    <div class="header center">Service</div>
+    <div class="statRow">
+        <div class="statCategory">
+            <div class="homeValue">{{ match.p1_ace }}</div>
+            <div class="categoryName">Aces</div>
+            <div class="awayValue">{{ match.p2_ace }}</div>
+        </div>
+        <div class="statBar">
+            <div class="statBarBg home">
+                <div class="betterSideBackground" style="width: {{(match.p1_ace/(match.p1_ace + match.p2_ace)*100)|round|int}}%;"></div>
+            </div>
+            <div class="statBarBg away">
+                <div class="worseSideOrEqualBackground" style="width: {{(match.p2_ace/(match.p1_ace + match.p2_ace)*100)|round|int}}%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="statRow">
+        <div class="statCategory">
+            <div class="homeValue">{{ match.p1_df }}</div>
+            <div class="categoryName">Double Faults</div>
+            <div class="awayValue">{{ match.p2_df }}</div>
+        </div>
+        <div class="statBar">
+            <div class="statBarBg home">
+                <div class="betterSideBackground" style="width: {{(match.p1_df/(match.p1_df + match.p2_df)*100)|round|int}}%;"></div>
+            </div>
+            <div class="statBarBg away">
+                <div class="worseSideOrEqualBackground" style="width: {{(match.p2_df/(match.p1_df + match.p2_df)*100)|round|int}}%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="statRow">
+        <div class="statCategory">
+            <div class="homeValue">{{ (match.p1_1st_serve_ratio * 100)|round|int }}%</div>
+            <div class="categoryName">1st Serve Percentage</div>
+            <div class="awayValue">{{ (match.p2_1st_serve_ratio * 100)|round|int }}%</div>
+        </div>
+        <div class="statBar">
+            <div class="statBarBg home">
+                <div class="betterSideBackground" style="width: {{(match.p1_1st_serve_ratio/(match.p1_1st_serve_ratio + match.p2_1st_serve_ratio)*100)|round|int}}%;"></div>
+            </div>
+            <div class="statBarBg away">
+                <div class="worseSideOrEqualBackground" style="width: {{(match.p2_1st_serve_ratio/(match.p1_1st_serve_ratio + match.p2_1st_serve_ratio)*100)|round|int}}%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="statRow">
+        <div class="statCategory">
+            <div class="homeValue">{{ (match.p1_1st_won_ratio * 100)|round|int }}% ({{match.p1_1st_won}}/{{match.p1_1st_in}})</div>
+            <div class="categoryName">1st Serve Points Won</div>
+            <div class="awayValue">{{ (match.p2_1st_won_ratio * 100)|round|int }}% ({{match.p2_1st_won}}/{{match.p2_1st_in}})</div>
+        </div>
+        <div class="statBar">
+            <div class="statBarBg home">
+                <div class="betterSideBackground" style="width: {{(match.p1_1st_won_ratio/(match.p1_1st_won_ratio + match.p2_1st_won_ratio)*100)|round|int}}%;"></div>
+            </div>
+            <div class="statBarBg away">
+                <div class="worseSideOrEqualBackground" style="width: {{(match.p2_1st_won_ratio/(match.p1_1st_won_ratio + match.p2_1st_won_ratio)*100)|round|int}}%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="statRow">
+        <div class="statCategory">
+            <div class="homeValue">{{ (match.p1_2nd_won_ratio * 100)|round|int }}% ({{match.p1_2nd_won}}/{{match.p1_2nd_pts}})</div>
+            <div class="categoryName">2nd Serve Points Won</div>
+            <div class="awayValue">{{ (match.p2_2nd_won_ratio * 100)|round|int }}% ({{match.p2_2nd_won}}/{{match.p2_2nd_pts}})</div>
+        </div>
+        <div class="statBar">
+            <div class="statBarBg home">
+                <div class="betterSideBackground" style="width: {{(match.p1_2nd_won_ratio/(match.p1_2nd_won_ratio + match.p2_2nd_won_ratio)*100)|round|int}}%;"></div>
+            </div>
+            <div class="statBarBg away">
+                <div class="worseSideOrEqualBackground" style="width: {{(match.p2_2nd_won_ratio/(match.p1_2nd_won_ratio + match.p2_2nd_won_ratio)*100)|round|int}}%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="statRow">
+        <div class="statCategory">
+            <div class="homeValue">{{ (match.p1_bp_saved_ratio * 100)|round|int }}% ({{match.p1_bp_saved}}/{{match.p1_bp_faced}})</div>
+            <div class="categoryName">Break Points Saved</div>
+            <div class="awayValue">{{ (match.p2_bp_saved_ratio * 100)|round|int }}% ({{match.p2_bp_saved}}/{{match.p2_bp_faced}})</div>
+        </div>
+        <div class="statBar">
+            <div class="statBarBg home">
+                <div class="betterSideBackground" style="width: {{(match.p1_bp_saved_ratio/(match.p1_bp_saved_ratio + match.p2_bp_saved_ratio)*100)|round|int}}%;"></div>
+            </div>
+            <div class="statBarBg away">
+                <div class="worseSideOrEqualBackground" style="width: {{(match.p2_bp_saved_ratio/(match.p1_bp_saved_ratio + match.p2_bp_saved_ratio)*100)|round|int}}%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header center">Return</div>
+    <div class="statRow">
+        <div class="statCategory">
+            <div class="homeValue">{{ ((1 - match.p2_1st_won_ratio) * 100)|round|int }}% ({{match.p2_1st_in - match.p2_1st_won}}/{{match.p2_1st_in}})</div>
+            <div class="categoryName">1st Return Points Won</div>
+            <div class="awayValue">{{ ((1 - match.p1_1st_won_ratio) * 100)|round|int }}% ({{match.p1_1st_in - match.p1_1st_won}}/{{match.p1_1st_in}})</div>
+        </div>
+        <div class="statBar">
+            <div class="statBarBg home">
+                <div class="betterSideBackground" style="width: {{((1 - match.p2_1st_won_ratio)/(2 - match.p1_1st_won_ratio - match.p2_1st_won_ratio)*100)|round|int}}%;"></div>
+            </div>
+            <div class="statBarBg away">
+                <div class="worseSideOrEqualBackground" style="width: {{((1 - match.p1_1st_won_ratio)/(2 - match.p1_1st_won_ratio - match.p2_1st_won_ratio)*100)|round|int}}%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="statRow">
+        <div class="statCategory">
+            <div class="homeValue">{{ ((1 - match.p2_2nd_won_ratio) * 100)|round|int }}% ({{match.p2_2nd_pts - match.p2_2nd_won}}/{{match.p2_2nd_pts}})</div>
+            <div class="categoryName">2nd Return Points Won</div>
+            <div class="awayValue">{{ ((1 - match.p1_2nd_won_ratio) * 100)|round|int }}% ({{match.p1_2nd_pts - match.p1_2nd_won}}/{{match.p1_2nd_pts}})</div>
+        </div>
+        <div class="statBar">
+            <div class="statBarBg home">
+                <div class="betterSideBackground" style="width: {{((1 - match.p2_2nd_won_ratio)/(2 - match.p1_2nd_won_ratio - match.p2_2nd_won_ratio)*100)|round|int}}%;"></div>
+            </div>
+            <div class="statBarBg away">
+                <div class="worseSideOrEqualBackground" style="width: {{((1 - match.p1_2nd_won_ratio)/(2 - match.p1_2nd_won_ratio - match.p2_2nd_won_ratio)*100)|round|int}}%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="statRow">
+        <div class="statCategory">
+            <div class="homeValue">{{ ((1 - match.p2_bp_saved_ratio) * 100)|round|int }}% ({{match.p2_bp_faced - match.p2_bp_saved}}/{{match.p2_bp_faced}})</div>
+            <div class="categoryName">Break Points Converted</div>
+            <div class="awayValue">{{ ((1 - match.p1_bp_saved_ratio) * 100)|round|int }}% ({{match.p1_bp_faced - match.p1_bp_saved}}/{{match.p1_bp_faced}})</div>
+        </div>
+        <div class="statBar">
+            <div class="statBarBg home">
+                <div class="betterSideBackground" style="width: {{((1 - match.p2_bp_saved_ratio)/(2 - match.p1_bp_saved_ratio - match.p2_bp_saved_ratio)*100)|round|int}}%;"></div>
+            </div>
+            <div class="statBarBg away">
+                <div class="worseSideOrEqualBackground" style="width: {{((1 - match.p1_bp_saved_ratio)/(2 - match.p1_bp_saved_ratio - match.p2_bp_saved_ratio)*100)|round|int}}%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header center">Points</div>
+    <div class="statRow">
+        <div class="statCategory">
+            <div class="homeValue">{{ (match.p1_svpt_ratio * 100)|round|int }}% ({{match.p1_svpt_won}}/{{match.p1_svpt}})</div>
+            <div class="categoryName">Service Points Won</div>
+            <div class="awayValue">{{ (match.p2_svpt_ratio * 100)|round|int }}% ({{match.p2_svpt_won}}/{{match.p2_svpt}})</div>
+        </div>
+        <div class="statBar">
+            <div class="statBarBg home">
+                <div class="betterSideBackground" style="width: {{(match.p1_svpt_ratio/(match.p1_svpt_ratio + match.p2_svpt_ratio)*100)|round|int}}%;"></div>
+            </div>
+            <div class="statBarBg away">
+                <div class="worseSideOrEqualBackground" style="width: {{(match.p2_svpt_ratio/(match.p1_svpt_ratio + match.p2_svpt_ratio)*100)|round|int}}%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="statRow">
+        <div class="statCategory">
+            <div class="homeValue">{{ ((1 - match.p2_svpt_ratio) * 100)|round|int }}% ({{match.p2_svpt - match.p2_svpt_won}}/{{match.p2_svpt}})</div>
+            <div class="categoryName">Return Points Won</div>
+            <div class="awayValue">{{ ((1 - match.p1_svpt_ratio) * 100)|round|int }}% ({{match.p1_svpt - match.p1_svpt_won}}/{{match.p1_svpt}})</div>
+        </div>
+        <div class="statBar">
+            <div class="statBarBg home">
+                <div class="betterSideBackground" style="width: {{((1 - match.p2_svpt_ratio)/(2 - match.p1_svpt_ratio - match.p2_svpt_ratio)*100)|round|int}}%;"></div>
+            </div>
+            <div class="statBarBg away">
+                <div class="worseSideOrEqualBackground" style="width: {{((1 - match.p1_svpt_ratio)/(2 - match.p1_svpt_ratio - match.p2_svpt_ratio)*100)|round|int}}%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="statRow">
+        <div class="statCategory">
+            <div class="homeValue">{{ ((match.p1_svpt_won + match.p2_svpt - match.p2_svpt_won)/(match.p1_svpt + match.p2_svpt) * 100)|round|int }}% ({{match.p1_svpt_won + match.p2_svpt - match.p2_svpt_won}}/{{match.p1_svpt + match.p2_svpt}})</div>
+            <div class="categoryName">Total Points Won</div>
+            <div class="awayValue">{{ ((match.p2_svpt_won + match.p1_svpt - match.p1_svpt_won)/(match.p1_svpt + match.p2_svpt) * 100)|round|int }}% ({{match.p2_svpt_won + match.p1_svpt - match.p1_svpt_won}}/{{match.p1_svpt + match.p2_svpt}})</div>
+        </div>
+        <div class="statBar">
+            <div class="statBarBg home">
+                <div class="betterSideBackground" style="width: {{((match.p1_svpt_won + match.p2_svpt - match.p2_svpt_won)/(match.p1_svpt + match.p2_svpt) * 100)|round|int}}%;"></div>
+            </div>
+            <div class="statBarBg away">
+                <div class="worseSideOrEqualBackground" style="width: {{((match.p2_svpt_won + match.p1_svpt - match.p1_svpt_won)/(match.p1_svpt + match.p2_svpt) * 100)|round|int}}%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header center">Games</div>
+    <div class="statRow">
+        <div class="statCategory">
+            <div class="homeValue">{{ (match.p1_sv_gms_won_ratio * 100)|round|int }}% ({{match.p1_sv_gms_won}}/{{match.p1_sv_gms}})</div>
+            <div class="categoryName">Service Games Won</div>
+            <div class="awayValue">{{ (match.p2_sv_gms_won_ratio * 100)|round|int }}% ({{match.p2_sv_gms_won}}/{{match.p2_sv_gms}})</div>
+        </div>
+        <div class="statBar">
+            <div class="statBarBg home">
+                <div class="betterSideBackground" style="width: {{(match.p1_sv_gms_won_ratio/(match.p1_sv_gms_won_ratio + match.p2_sv_gms_won_ratio)*100)|round|int}}%;"></div>
+            </div>
+            <div class="statBarBg away">
+                <div class="worseSideOrEqualBackground" style="width: {{(match.p2_sv_gms_won_ratio/(match.p1_sv_gms_won_ratio + match.p2_sv_gms_won_ratio)*100)|round|int}}%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="statRow">
+        <div class="statCategory">
+            <div class="homeValue">{{ ((1 - match.p2_sv_gms_won_ratio) * 100)|round|int }}% ({{match.p2_sv_gms - match.p2_sv_gms_won}}/{{match.p2_sv_gms}})</div>
+            <div class="categoryName">Return Games Won</div>
+            <div class="awayValue">{{ ((1 - match.p1_sv_gms_won_ratio) * 100)|round|int }}% ({{match.p1_sv_gms - match.p1_sv_gms_won}}/{{match.p1_sv_gms}})</div>
+        </div>
+        <div class="statBar">
+            <div class="statBarBg home">
+                <div class="betterSideBackground" style="width: {{((1 - match.p2_sv_gms_won_ratio)/(2 - match.p1_sv_gms_won_ratio - match.p2_sv_gms_won_ratio)*100)|round|int}}%;"></div>
+            </div>
+            <div class="statBarBg away">
+                <div class="worseSideOrEqualBackground" style="width: {{((1 - match.p1_sv_gms_won_ratio)/(2 - match.p1_sv_gms_won_ratio - match.p2_sv_gms_won_ratio)*100)|round|int}}%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="statRow">
+        <div class="statCategory">
+            <div class="homeValue">{{ ((match.p1_sv_gms_won + match.p2_sv_gms - match.p2_sv_gms_won)/(match.p1_sv_gms + match.p2_sv_gms) * 100)|round|int }}% ({{match.p1_sv_gms_won + match.p2_sv_gms - match.p2_sv_gms_won}}/{{match.p1_sv_gms + match.p2_sv_gms}})</div>
+            <div class="categoryName">Total Games Won</div>
+            <div class="awayValue">{{ ((match.p2_sv_gms_won + match.p1_sv_gms - match.p1_sv_gms_won)/(match.p1_sv_gms + match.p2_sv_gms) * 100)|round|int }}% ({{match.p2_sv_gms_won + match.p1_sv_gms - match.p1_sv_gms_won}}/{{match.p1_sv_gms + match.p2_sv_gms}})</div>
+        </div>
+        <div class="statBar">
+            <div class="statBarBg home">
+                <div class="betterSideBackground" style="width: {{((match.p1_sv_gms_won + match.p2_sv_gms - match.p2_sv_gms_won)/(match.p1_sv_gms + match.p2_sv_gms) * 100)|round|int}}%;"></div>
+            </div>
+            <div class="statBarBg away">
+                <div class="worseSideOrEqualBackground" style="width: {{((match.p2_sv_gms_won + match.p1_sv_gms - match.p1_sv_gms_won)/(match.p1_sv_gms + match.p2_sv_gms) * 100)|round|int}}%;"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
