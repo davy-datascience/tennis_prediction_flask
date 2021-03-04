@@ -29,11 +29,21 @@
 {% for match_result in match_results %}
     <div class="row border border-secondary">
         <div class="col-5"> {{match_result.tournament_name}} </div>
-        <div class="col-2">Prediction</div>
+        {% if match_result.matches[0].p1_proba is defined %}
+            <div class="col-2">Prediction</div>
+        {% endif %}
     </div>
     {% for match in match_result.matches %}
         <!-- TODO Remove link for scheduled matches -->
-        <div class="row border border-secondary" onclick="window.location.href='{{ url_for( 'match_detail' , match_id=match.match_id ) }}';">
+        {% if match.status == 'Scheduled' %}
+            <div class="row border border-secondary">
+        {% else %}
+            <div class="matchFinished row border border-secondary"
+                 onclick="window.location.href='{{ url_for( 'match_detail' , match_id=match.match_id ) }}';"
+                 data-toggle="tooltip"
+                 title="Click for match detail!"
+            >
+        {% endif %}
             <div class="col-1">
                 {{ moment(match.match_date).format('HH:mm') }}
             </div>

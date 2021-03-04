@@ -71,3 +71,7 @@
     justify-content: center;
     display: flex;
 }
+
+.matchFinished:hover {
+    background-color: #e9e9e9;
+}
