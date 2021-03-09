@@ -43,7 +43,7 @@
                  title="Click for match detail!"
             >
         {% endif %}
-            <div class="col-1">
+            <div class="col-1 {{'text-danger' if match.status == 'Live'}}">
                 {% if match.status == 'Scheduled' %}
                     {{ moment(match.match_date).format('HH:mm') }}
                 {% else %}
