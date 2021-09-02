@@ -68,8 +68,8 @@
             };
 
             (function() {
-                // Remove today date from url
-                history.replaceState(null, null, location.href.replace(/[\?&]timezone=[^&]+/, '').replace(/^&/, '?'))
+                // Remove parameters from url
+                history.replaceState(null, null, location.href.replace(/\?.*/, ''))
 
                 $('#datepicker').datepicker(
                 {
@@ -77,10 +77,9 @@
                     autoclose: true
                 });
 
-                current_date = new Date();
-                current_date.setHours(0, 0, 0, 0);
+                date_of_matches = stringToDate("{{date_of_matches}}");
 
-                $('#datepicker').datepicker('setDate', current_date);
+                $('#datepicker').datepicker('setDate', date_of_matches);
 
                 $('#datepicker').datepicker().on('changeDate', function(e) {
                     date_picked = $('#datepicker').datepicker('getDate');

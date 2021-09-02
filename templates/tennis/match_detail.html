@@ -3,6 +3,9 @@
 {% block title %}Match{% endblock %}
 
 {% block content %}
+    <button type="button" onclick="goBackToResults();" class="btn btn-outline-secondary">
+        Back to results
+    </button>
     <div class="row border border-secondary">
         <div class="col-2">
             <div class="{{'font-weight-bold' if match.p1_wins is sameas True}}">{{match.p1_name}}</div>
@@ -287,4 +290,10 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function goBackToResults(){
+            window.location.href = "{{ url_for('tennis') }}?date={{match.datetime.date()}}"
+        }
+    </script>
 {% endblock %}

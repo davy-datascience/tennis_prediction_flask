@@ -28,24 +28,37 @@ def tennis():
     match_results = None
     next_match_date = None
     previous_match_date = None
+    local_timezone = None
+
+    if session.get("timezone") is None:
+        local_timezone = request.args.get('timezone')
+        session["timezone"] = local_timezone
+    else:
+        local_timezone = session["timezone"]
 
     # Get today date from url
-    local_timezone = request.args.get('timezone')
-    session["timezone"] = local_timezone
+    custom_date = request.args.get('date')
+
+    date_of_matches = None
 
     if local_timezone:
-        date_of_matches = datetime.now(tz=timezone(local_timezone))
-        date_of_matches = datetime(date_of_matches.year, date_of_matches.month, date_of_matches.day, 0, 0)
-        date_of_matches = date_of_matches.astimezone(timezone(local_timezone))
+        datetime_of_matches = None
+        if custom_date:
+            datetime_of_matches = datetime.strptime(custom_date, '%Y-%m-%d')
+        else:
+            datetime_of_matches = datetime.now(tz=timezone(local_timezone))
+            datetime_of_matches = datetime(datetime_of_matches.year, datetime_of_matches.month, datetime_of_matches.day, 0, 0)
+        datetime_of_matches = datetime_of_matches.astimezone(timezone(local_timezone))
+        date_of_matches = datetime_of_matches.date()
 
-        match_results = get_match_results(date_of_matches)
+        match_results = get_match_results(datetime_of_matches)
 
         if len(match_results) == 0:
-            next_match_date = get_next_match_date(date_of_matches, local_timezone)
-            previous_match_date = get_previous_match_date(date_of_matches, local_timezone)
+            next_match_date = get_next_match_date(datetime_of_matches, local_timezone)
+            previous_match_date = get_previous_match_date(datetime_of_matches, local_timezone)
 
     return render_template('tennis/home.html', match_results=match_results, next_date=next_match_date,
-                           prev_date=previous_match_date)
+                           prev_date=previous_match_date, date_of_matches=date_of_matches)
 
 
 @app.route('/change_date_of_matches', methods=['GET', 'POST'])

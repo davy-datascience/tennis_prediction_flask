@@ -100,15 +100,18 @@
     {% endfor %}
 {% endfor %}
 <script>
+    function stringToDate(date_str){
+        date_parts = date_str.split("-")
+        return new Date(date_parts[0], parseInt(date_parts[1]) - 1, date_parts[2]);
+    };
+
     function goToPrevDate(){
-        date_parts = "{{prev_date}}".split("-")
-        new_date = new Date(date_parts[0], parseInt(date_parts[1]) - 1, date_parts[2]);
+        new_date = stringToDate("{{prev_date}}")
         $('#datepicker').datepicker('setDate', new_date);
     };
 
     function goToNextDate(){
-        date_parts = "{{next_date}}".split("-")
-        new_date = new Date(date_parts[0], parseInt(date_parts[1]) - 1, date_parts[2]);
+        new_date = stringToDate("{{next_date}}")
         $('#datepicker').datepicker('setDate', new_date);
     };
 </script>
